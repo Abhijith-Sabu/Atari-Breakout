@@ -1,2 +1,0 @@
-box=[]
-print(len(box))
