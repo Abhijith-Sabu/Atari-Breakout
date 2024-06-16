@@ -1,6 +1,7 @@
 from paddle_module import Paddle
 from Ball_module import Ball
 from object_module import Object
+from score_module import Score
 import turtle
 import time
 
@@ -15,15 +16,20 @@ def main():
 
     paddle = Paddle()
     ball=Ball()
+    score=Score()
+
     blocks = []
-    block_positions = [(x, y) for y in range(250, 200, -20) for x in range(-350, 400, 80)]
-    print(block_positions)
+    block_width = 80  # Width of each block
+    block_height = 20  # Height of each block
+    gap = 10  # Gap between blocks
+    
+    start_x = -350  # Starting X position
+    start_y = 250  # Starting Y position
+    
+    block_positions=[(x,y)for y in range(start_y, 200, -block_height - gap) for x in range(start_x, 400, block_width + gap)]
     for position in block_positions:
         block = Object(position)
         blocks.append(block)
-
-
-
     
     
     paddle.goto(0, -250) # Position the paddle at the right edge of the screen
@@ -31,8 +37,8 @@ def main():
 
 
 
-
-    while True:
+    game =True
+    while game:
         time.sleep(ball.speed_of_ball)
         screen.update()
         ball.move()
@@ -49,11 +55,13 @@ def main():
             ball.bounce_y()
         for block in blocks:
             if ball.distance(block) < 30:
+                score.point()
                 ball.bounce_y()
                 block.hideturtle()  # Hide the block upon collision
                 blocks.remove(block)  # Remove the block from the list
         if len(blocks)==0:
             print('you won ')
+            game=False
 
 
 

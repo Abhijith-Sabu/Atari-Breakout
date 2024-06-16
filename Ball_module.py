@@ -9,8 +9,8 @@ class Ball(Turtle):
         
         self.penup()
         self.goto(0, -230)
-        self.xmove=2
-        self.ymove=2
+        self.xmove=5
+        self.ymove=5
         self.speed_of_ball=0.1
 
 
@@ -27,7 +27,7 @@ class Ball(Turtle):
         self.speed_of_ball*=0.9
     def reducespeed(self):
         self.ymove*=-1
-        self.speed_of_ball/=0.9
+        self.speed_of_ball*=9
 
   
 
