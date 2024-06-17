@@ -4,7 +4,7 @@ from object_module import Object
 from score_module import Score
 import turtle
 import time
-
+from turtle import Turtle
 def main():
     screen = turtle.Screen()
     screen.bgcolor("#333333")
@@ -34,17 +34,22 @@ def main():
     
     paddle.goto(0, -250) # Position the paddle at the right edge of the screen
     screen.cv.bind('<Motion>',lambda event: paddle.on_mouse_move(event.x,event.y))
+    global youWon
+    youWon=False
+
+    game_is_on = True
+    you_won = False
 
 
-
-    game =True
-    while game:
+    while game_is_on:
         time.sleep(ball.speed_of_ball)
         screen.update()
         ball.move()
 
-        if ball.ycor() >290 or ball.ycor() <-300:
+        if ball.ycor() <-300:
             ball.reducespeed()
+        if ball.ycor()>290:
+            ball.bounce_y()
    
  
 
@@ -60,13 +65,22 @@ def main():
                 block.hideturtle()  # Hide the block upon collision
                 blocks.remove(block)  # Remove the block from the list
         if len(blocks)==0:
-            print('you won ')
-            game=False
+            you_won = True
+            game_is_on = False
+    
 
-
-
-
-
+    # End game screen
+    screen.clear()
+    screen.bgcolor("#333333")
+    end_message = Turtle()
+    end_message.color("white")
+    end_message.penup()
+    end_message.hideturtle()
+    if you_won:
+        end_message.write("You Won", align='center', font=("consolas", 80, "normal"))
+    else:
+        end_message.write("Game Over", align='center', font=("consolas", 80, "normal"))
+    turtle.done()
 
 
 if __name__ == "__main__":
